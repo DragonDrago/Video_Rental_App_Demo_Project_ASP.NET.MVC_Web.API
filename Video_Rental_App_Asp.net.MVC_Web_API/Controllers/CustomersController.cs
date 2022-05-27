@@ -27,8 +27,13 @@ namespace Video_Rental_App_Asp.net.MVC_Web_API.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Customer customer)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("CustomerForm", customer);
+            }
             if (customer.Id == 0)
                 _context.Customers.Add(customer);
             else
@@ -48,7 +53,7 @@ namespace Video_Rental_App_Asp.net.MVC_Web_API.Controllers
         public ViewResult Index()
         {
             var customers = _context.Customers.ToList();
-
+           
             return View(customers);
         }
 
